@@ -58,20 +58,17 @@ class Trie:
             print("Empty Trie")
             return
 
-        return self._print_trie(self.root)
+        print(self._print_trie(self.root))
 
     def _delete(self, word, pos, node):
         if pos < len(word) and node.children[ord(word[pos].lower())-ord('a')] is not None:
-            if pos < len(word):
-                self._delete(word, pos+1, node.children[ord(word[pos].lower())-ord('a')])
-
-            elif pos+1 == len(word):
-                node.isEnd = False
+            self._delete(word, pos+1, node.children[ord(word[pos].lower())-ord('a')])
 
         if node.children is None:
             node = None
         else:
-            node.isEnd = False
+            if pos == len(word):
+                node.isEnd = False
 
     def delete(self,word):
         if self.root.children is None:
@@ -95,6 +92,3 @@ class Trie:
                 return
 
         return [prefix+word for word in self._print_trie(current)]
-
-
-
