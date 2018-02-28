@@ -109,18 +109,16 @@ def heapify_down(A, i):
         if smallest != i:
             A[smallest], A[i] = A[i], A[smallest]
             heapify_down(A, smallest)
+    return A
 
 
 def heap_sort(A):
-    sorted_A = []
     build_heap(A)
     l = len(A)
-    for i in range(l):
-        sorted_A.append(A[0])
-        A[0], A[-1] = A[-1], A[0]
-        A.pop()
-        heapify_down(A, 0)
+    for i in range(l-1):
+        A[0], A[-i-1] = A[-i-1], A[0]
+        A[:l-i-1] = heapify_down(A[:l-i-1], 0)
 
-    return sorted_A
+    print(A)
 
 
