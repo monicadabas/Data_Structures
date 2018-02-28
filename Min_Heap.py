@@ -69,27 +69,26 @@ class Heap:
 
 # create a min heap from a list of elements
 
-def get_smallest(A, i):
-    l = len(A)
+def get_smallest(A,n,i):
     left = int(i*2 + 1)
     right = int(i*2 + 2)
     smallest = i
-    if left < l and A[left] < A[i]:
+    if left < n and A[left] < A[i]:
         smallest = left
 
-    if right < l and A[right] < A[smallest]:
+    if right < n and A[right] < A[smallest]:
         smallest = right
 
     return smallest
 
 
-def heapify(A, i):
+def heapify(A,n, i):
     if i > 0:
         parent_i = int((i-1)/2)
         if A[parent_i] > A[i]:
             A[parent_i], A[i] = A[i], A[parent_i]
-        heapify(A, parent_i)
-        smallest = get_smallest(A, i)
+        heapify(A,n, parent_i)
+        smallest = get_smallest(A, n, i)
         if smallest != i:
             A[smallest], A[i] = A[i], A[smallest]
 
@@ -98,27 +97,30 @@ def build_heap(elements_list):
     length = len(elements_list)
 
     for i in range(length-1, int(length/2)-1, -1):
-        heapify(elements_list, i)
+        heapify(elements_list,length, i)
     print(elements_list)
 
 
-# min heap sort
-def heapify_down(A, i):
-    if i >= 0:
-        smallest = get_smallest(A, i)
-        if smallest != i:
-            A[smallest], A[i] = A[i], A[smallest]
-            heapify_down(A, smallest)
+# min heap sort: sorts in decreasing order. max heap sorts in increasing order
+def heapify_down(A,n,i):
+    smallest = get_smallest(A,n,i)
+    if smallest != i:
+        A[smallest], A[i] = A[i], A[smallest]
+        heapify_down(A,n,smallest)
     return A
 
 
 def heap_sort(A):
     build_heap(A)
     l = len(A)
+    n = l
     for i in range(l-1):
         A[0], A[-i-1] = A[-i-1], A[0]
-        A[:l-i-1] = heapify_down(A[:l-i-1], 0)
+        n -= 1
+        heapify_down(A,n,0)
 
     print(A)
 
+A = [3,2,6,1,7,5,9,2]
+heap_sort(A)
 
